@@ -12,6 +12,7 @@ from PIL import Image
 import threading
 import glob
 import os
+import time
 
 class ResizeImage():
 
@@ -21,12 +22,25 @@ class ResizeImage():
         self.Width = width
         self.Height = height
         self.Size = [self.Width, self.Height]
+        self.ScanningThread = None
 
     def Run(self, dir):
-        for infile in glob.glob(dir + "/*.jpg"):
-            file, ext = os.path.splitext(infile)
-            if not file.__contains__("thumbnail"):
-                self.Resize(infile, file, ext)
+        self.ScanningThread = threading.Thread(target=self.ScanDir, args=[dir])
+        self.ScanningThread.daemon = True
+        self.ScanningThread.start()
+
+        while True:
+            pass
+
+    def ScanDir(self, dir):
+        while True:
+            for infile in glob.glob(dir + "/*.jpg"):
+                file, ext = os.path.splitext(infile)
+                if not file.__contains__("thumbnail"):
+                    self.Resize(infile, file, ext)
+
+            time.sleep(1)
+            print('Scanning Folder')
 
     # run in thread every x seconds to look in a specific folder
     def Resize(self, infile, file, ext):
