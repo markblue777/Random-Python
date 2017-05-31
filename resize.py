@@ -39,10 +39,10 @@ class ResizeImage():
                 if not file.__contains__("thumbnail"):
                     self.Resize(infile, file, ext)
 
+            # sleep the thread so it scans the folder every second
             time.sleep(1)
             print('Scanning Folder')
 
-    # run in thread every x seconds to look in a specific folder
     def Resize(self, infile, file, ext):
         im = Image.open(infile)
         im.thumbnail(self.Size)
