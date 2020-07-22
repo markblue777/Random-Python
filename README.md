@@ -1,2 +1,2 @@
 # Random-Python
-Random python classes and scripts created to 
+Random python created to perform various bits
